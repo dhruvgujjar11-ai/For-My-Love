@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For My Bby, Nandu ❤️</title>
+  <title>For My Bby, Nandani ❤️</title>
   <style>
     :root {
       --primary: #ff4d6d;
@@ -24,397 +24,332 @@
     body {
       background: var(--bg-gradient);
       color: #ffffff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
       overflow-x: hidden;
-      position: relative;
+      scroll-behavior: smooth;
     }
 
-    /* Animated Flower Petals & Hearts Background */
-    .bg-animations {
+    /* Sideways Bouquet Animation */
+    .bouquet {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      bottom: 30px;
+      left: -200px;
+      font-size: 7rem;
+      z-index: 100;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
       pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+      transition: opacity 0.5s;
     }
 
-    .petal-particle {
-      position: absolute;
-      top: -50px;
-      font-size: 1.5rem;
-      animation: fall 9s linear infinite;
+    .slide-in {
+      animation: slideBouquet 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.5s;
     }
 
-    @keyframes fall {
-      0% {
-        transform: translateY(0) rotate(0deg) translateX(0);
-        opacity: 0;
-      }
-      10% { opacity: 0.9; }
-      100% {
-        transform: translateY(105vh) rotate(360deg) translateX(50px);
-        opacity: 0;
-      }
+    @keyframes slideBouquet {
+      0% { left: -200px; transform: rotate(-20deg); }
+      100% { left: 10px; transform: rotate(15deg); }
     }
 
-    /* Layout Containers */
-    .container {
-      width: 90%;
-      max-width: 600px;
-      z-index: 10;
-      padding: 2rem 1rem;
-      text-align: center;
-    }
-
-    /* Unlock Screen */
-    #unlock-screen {
-      min-height: 80vh;
+    /* Page Sections */
+    .section {
+      min-height: 100vh;
+      padding: 4rem 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    h1, h2 {
+      background: linear-gradient(45deg, #ff758f, #ffb3c1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    h1 { font-size: 2.8rem; }
+    h2 { font-size: 2rem; }
+
+    p.subtitle {
+      color: #e0e0e0;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    /* Intro Screen */
+    #unlock-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-gradient);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1s;
     }
 
     .heart-pulse {
-      font-size: 5rem;
+      font-size: 6rem;
       cursor: pointer;
-      animation: pulse 1.4s infinite ease-in-out;
-      filter: drop-shadow(0 0 25px rgba(255, 77, 109, 0.8));
-      transition: transform 0.2s;
-    }
-
-    .heart-pulse:hover {
-      transform: scale(1.15);
+      animation: pulse 1.2s infinite ease-in-out;
+      filter: drop-shadow(0 0 30px rgba(255, 77, 109, 0.9));
     }
 
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.18); }
+      50% { transform: scale(1.15); }
     }
 
-    /* Main Content Screen */
-    #main-content {
-      display: none;
-      animation: fadeIn 1s forwards ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      background: linear-gradient(45deg, #ff758f, #ffb3c1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 0.5rem;
-    }
-
-    p.subtitle {
-      color: #e0e0e0;
-      font-size: 1.05rem;
-      margin-bottom: 2rem;
-      line-height: 1.5;
-    }
-
-    /* Photo Gallery Section */
-    .photo-section {
-      margin-bottom: 2.5rem;
-    }
-
-    .photo-grid {
+    /* Media Gallery (Photos & Videos) */
+    .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1000px;
       margin-top: 1rem;
     }
 
-    .photo-card {
+    .media-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 0.5rem;
-      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      padding: 0.8rem;
+      backdrop-filter: blur(10px);
     }
 
-    .photo-card img {
+    .media-card img, .media-card video {
       width: 100%;
-      height: 150px;
+      border-radius: 12px;
       object-fit: cover;
-      border-radius: 8px;
     }
+    
+    .media-card img { height: 250px; }
+    .media-card video { height: 250px; background: #000; }
 
-    .photo-caption {
-      font-size: 0.85rem;
-      margin-top: 0.4rem;
-      color: var(--accent);
-    }
-
-    /* 100 Reasons Section */
-    .reasons-box {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 1.5rem;
-      margin-bottom: 2.5rem;
-      text-align: left;
-    }
-
-    .reasons-title {
-      font-size: 1.4rem;
-      color: var(--accent);
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .reasons-list {
-      max-height: 350px;
-      overflow-y: auto;
-      padding-right: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    /* Custom Scrollbar for Reasons */
-    .reasons-list::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .reasons-list::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 10px;
-    }
-
-    .reason-item {
-      font-size: 0.92rem;
-      padding: 0.6rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      border-left: 3px solid var(--primary);
-    }
-
-    /* Interactive Decision Game */
-    .game-box {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      padding: 1.8rem 1rem;
-      border: 1px dashed var(--card-border);
-      margin-bottom: 2rem;
-      position: relative;
-    }
-
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 1.5rem;
-      position: relative;
-      min-height: 50px;
-    }
-
-    .btn {
-      padding: 0.8rem 1.8rem;
-      border: none;
-      border-radius: 25px;
-      font-size: 1rem;
+    .media-caption {
+      margin-top: 0.8rem;
       font-weight: bold;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    /* 100 Envelopes Grid */
+    .envelope-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1000px;
+      margin-top: 2rem;
+      padding-bottom: 3rem;
+    }
+
+    .env-wrapper {
+      position: relative;
+      width: 100%;
+      height: 75px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      margin-top: 30px;
+      perspective: 1000px;
     }
 
-    .btn-yes {
-      background: linear-gradient(45deg, #ff4d6d, #ff758f);
-      color: white;
-      box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
-    }
-
-    .btn-yes:hover {
-      transform: scale(1.08);
-    }
-
-    .btn-no {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
+    .env-body {
       position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff4d6d, #d6336c);
+      border-radius: 0 0 8px 8px;
+      z-index: 3;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
     }
 
-    /* Celebration Overlay */
-    #celebration {
-      display: none;
-      margin-top: 1.5rem;
-      padding: 1.5rem;
-      background: rgba(255, 77, 109, 0.15);
-      border-radius: 16px;
-      border: 1px solid var(--primary);
+    .env-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 55%;
+      background: #ff758f;
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      transform-origin: top;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 4;
+    }
+
+    .env-letter {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      right: 5px;
+      height: 65px;
+      background: #fff;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 2;
+      padding: 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #900020;
       text-align: center;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Custom Love Note */
-    .love-letter {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 1.5rem;
-      border-radius: 16px;
-      border-left: 4px solid var(--primary);
-      text-align: left;
-      font-style: italic;
-      line-height: 1.6;
-      color: #ffe6ea;
+    /* Envelope Open State */
+    .env-wrapper.open .env-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .env-wrapper.open .env-letter {
+      transform: translateY(-55px) scale(1.6);
+      z-index: 10;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      border: 1px solid var(--accent);
+    }
+
+    /* Next Page Arrow */
+    .scroll-down {
+      margin-top: 3rem;
+      font-size: 2.5rem;
+      color: var(--accent);
+      animation: bounce 2s infinite;
+      text-decoration: none;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-15px); }
+      60% { transform: translateY(-7px); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating Background Animations -->
-  <div class="bg-animations" id="bg-animations"></div>
+  <!-- Unlock Overlay -->
+  <div id="unlock-screen">
+    <div class="heart-pulse" onclick="startExperience()">💌</div>
+    <h2 style="margin-top: 2rem;">Tap the letter, bby</h2>
+  </div>
 
-  <div class="container">
+  <!-- Sideways Bouquet -->
+  <div class="bouquet" id="bouquet">💐</div>
+
+  <!-- Main Content Wrappers -->
+  <div id="main-content" style="display: none;">
     
-    <!-- Screen 1: Interactive Lock Intro -->
-    <div id="unlock-screen">
-      <div class="heart-pulse" onclick="unlockSite()">💖</div>
-      <h2>Tap the heart to open your surprise, bby</h2>
-      <p style="color: #aaa; font-size: 0.9rem;">Made with love, just for Nandani 🌸</p>
-    </div>
-
-    <!-- Screen 2: Main Experience -->
-    <div id="main-content">
+    <!-- Page 1: Welcome & Media Gallery -->
+    <section class="section" id="page1">
       <h1>Happy Girlfriend's Day, Nandani! ✨</h1>
-      <p class="subtitle">To my beautiful bby who means the whole world to me ❤️</p>
+      <p class="subtitle">To my beautiful bby. Here is a little walk down memory lane, followed by 100 reasons why you mean the world to me. ❤️</p>
+      
+      <div class="gallery-grid">
+        <!-- Photo 1 -->
+        <div class="media-card">
+          <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600" alt="Pic 1">
+          <div class="media-caption">Your Beautiful Smile ✨</div>
+        </div>
 
-      <!-- Photo Gallery Section -->
-      <div class="photo-section">
-        <h3 style="color: var(--accent);">Our Memories 📸</h3>
-        <div class="photo-grid">
-          <div class="photo-card">
-            <!-- Replace image link below with your photo link if desired -->
-            <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Memory 1">
-            <div class="photo-caption">Your Smile ✨</div>
-          </div>
-          <div class="photo-card">
-            <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400" alt="Memory 2">
-            <div class="photo-caption">My Favorite Person 🌸</div>
-          </div>
-          <div class="photo-card">
-            <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="Memory 3">
-            <div class="photo-caption">Forever Together 💕</div>
-          </div>
+        <!-- Video 1 -->
+        <div class="media-card">
+          <video controls>
+            <source src="your-video-file.mp4" type="video/mp4">
+            Your browser does not support HTML video.
+          </video>
+          <div class="media-caption">My Favorite Video of Us 🌸</div>
+        </div>
+
+        <!-- Photo 2 -->
+        <div class="media-card">
+          <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600" alt="Pic 2">
+          <div class="media-caption">Forever My Girl 💕</div>
         </div>
       </div>
 
-      <!-- 100 Reasons Section -->
-      <div class="reasons-box">
-        <div class="reasons-title">100 Reasons Why I Love You, Bby 💌</div>
-        <div class="reasons-list" id="reasons-container">
-          <!-- JS will dynamically populate 100 reasons here -->
-        </div>
-      </div>
+      <a href="#page2" class="scroll-down">⬇️</a>
+    </section>
 
-      <!-- Playful Interactive Question -->
-      <div class="game-box">
-        <h3>Will you be mine forever & ever, bby? 🥺</h3>
-        <div class="btn-group" id="btn-group">
-          <button class="btn btn-yes" onclick="sayYes()">YES! ❤️</button>
-          <button class="btn btn-no" id="no-btn" onmouseover="moveNo()" onclick="moveNo()">No 😜</button>
-        </div>
-
-        <div id="celebration">
-          <h3>YAYYYY NANDANI! 🎉💖</h3>
-          <p style="margin-top: 0.5rem;">I knew you'd say yes, bby! You're stuck with me forever now! 😘✨</p>
-        </div>
+    <!-- Page 2: The 100 Envelopes -->
+    <section class="section" id="page2" style="background: rgba(0,0,0,0.2);">
+      <h2>100 Reasons I Love You 💌</h2>
+      <p class="subtitle">Tap any envelope to open it!</p>
+      
+      <div class="envelope-container" id="env-container">
+        <!-- Javascript will generate the 100 envelopes here -->
       </div>
+      
+      <a href="#page3" class="scroll-down">⬇️</a>
+    </section>
 
-      <!-- Love Note -->
-      <div class="love-letter">
-        "Thank you for being my joy, my strength, and my absolute favorite part of every single day. I love you so much, Nandani. Happy Girlfriend's Day, bby!"
-      </div>
-    </div>
+    <!-- Page 3: The Final Note -->
+    <section class="section" id="page3">
+      <h2>I Love You, Nandani ❤️</h2>
+      <p class="subtitle" style="font-style: italic; font-size: 1.2rem;">
+        "Thank you for being my joy, my strength, and my absolute favorite part of every single day. You make every mile of the distance worth it, and I can't wait to make more amazing memories with you. Happy Girlfriend's Day, bby!"
+      </p>
+      <div style="font-size: 4rem; margin-top: 1rem;">👩‍❤️‍👨</div>
+    </section>
 
   </div>
 
   <script>
-    // Create Background Flower Petals & Hearts
-    const bgContainer = document.getElementById('bg-animations');
-    const items = ['🌸', '🌺', '💖', '❤️', '✨', '🌹'];
-    
-    for (let i = 0; i < 30; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'petal-particle';
-      particle.innerHTML = items[Math.floor(Math.random() * items.length)];
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDuration = (Math.random() * 5 + 6) + 's';
-      particle.style.animationDelay = Math.random() * 5 + 's';
-      bgContainer.appendChild(particle);
+    // Unlock and Start Animations
+    function startExperience() {
+      const unlockScreen = document.getElementById('unlock-screen');
+      unlockScreen.style.opacity = '0';
+      
+      setTimeout(() => {
+        unlockScreen.style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        
+        // Trigger Sideways Bouquet
+        document.getElementById('bouquet').classList.add('slide-in');
+      }, 800);
     }
 
-    // Generate 100 Reasons
-    const baseReasons = [
-      "Your laugh instantly brightens up my day.",
-      "How cute you look when you get excited.",
-      "The way you care so deeply about us.",
-      "Your beautiful, radiant smile.",
+    // Generate 100 Interactive Envelopes
+    const personalizedReasons = [
+      "Your smile lights up my whole world.",
+      "The way you care for people is so beautiful.",
+      "You make the long distance completely worth it.",
+      "I'm so excited for our upcoming Spain vacation! ✈️",
+      "Every time we are together in London is magical.",
+      "You are my number one supporter.",
+      "I love the sound of your laugh.",
       "How sweet and kind your heart is.",
       "You make even boring days super fun.",
-      "You're my absolute favorite person to talk to.",
-      "How you always support and believe in me.",
-      "The cozy feeling whenever I'm with you.",
-      "Your adorable sense of humor."
+      "You're my absolute favorite person to talk to."
     ];
 
-    const reasonsContainer = document.getElementById('reasons-container');
+    const container = document.getElementById('env-container');
+    
     for (let i = 1; i <= 100; i++) {
-      const reasonText = baseReasons[(i - 1) % baseReasons.length];
-      const div = document.createElement('div');
-      div.className = 'reason-item';
-      div.innerHTML = `<strong>#${i}:</strong> ${reasonText}`;
-      reasonsContainer.appendChild(div);
-    }
-
-    // Unlock Experience
-    function unlockSite() {
-      document.getElementById('unlock-screen').style.display = 'none';
-      document.getElementById('main-content').style.display = 'block';
-    }
-
-    // Dodge No Button
-    function moveNo() {
-      const noBtn = document.getElementById('no-btn');
-      const x = Math.random() * 160 - 80;
-      const y = Math.random() * 80 - 40;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    }
-
-    // Say Yes Action
-    function sayYes() {
-      document.getElementById('btn-group').style.display = 'none';
-      document.getElementById('celebration').style.display = 'block';
+      // Loop through our reasons array
+      const reasonText = personalizedReasons[(i - 1) % personalizedReasons.length];
       
-      // Burst extra hearts
-      for(let i = 0; i < 35; i++) {
-        setTimeout(() => {
-          const heart = document.createElement('div');
-          heart.className = 'petal-particle';
-          heart.innerHTML = '💖';
-          heart.style.left = Math.random() * 100 + '%';
-          heart.style.animationDuration = '3s';
-          bgContainer.appendChild(heart);
-        }, i * 50);
-      }
+      const wrapper = document.createElement('div');
+      wrapper.className = 'env-wrapper';
+      wrapper.onclick = function() {
+        // Close all other envelopes first (optional, but keeps screen clean)
+        document.querySelectorAll('.env-wrapper').forEach(env => env.classList.remove('open'));
+        // Open the clicked one
+        this.classList.toggle('open');
+      };
+
+      wrapper.innerHTML = `
+        <div class="env-flap"></div>
+        <div class="env-body"></div>
+        <div class="env-letter">#${i}: ${reasonText}</div>
+      `;
+      
+      container.appendChild(wrapper);
     }
   </script>
 </body>
