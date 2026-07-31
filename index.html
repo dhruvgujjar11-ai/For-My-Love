@@ -17,7 +17,7 @@
             background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
             background-attachment: fixed;
             color: #333;
-            overflow: hidden; /* Prevents whole-page scrolling, forces slider scrolling */
+            overflow: hidden; /* Lock body scrolling to force slider scrolling */
             text-align: center;
         }
 
@@ -36,6 +36,37 @@
             100% { transform: translateY(110vh) rotate(360deg) translateX(50px); }
         }
 
+        /* Navigation Menu - Fixed at Top */
+        nav {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        nav button {
+            background: #ff7eb3;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 126, 179, 0.4);
+        }
+        nav button:hover, nav button.active {
+            background: #ff4785;
+            transform: scale(1.1);
+        }
+
         /* --- SLIDER LAYOUT --- */
         .slider-container {
             display: flex;
@@ -43,32 +74,27 @@
             height: 100vh;
             overflow-x: auto;
             overflow-y: hidden;
-            scroll-snap-type: x mandatory; /* Makes it snap perfectly to each slide */
+            scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
         }
-
-        /* Hide scrollbar for cleaner look */
-        .slider-container::-webkit-scrollbar {
-            display: none;
-        }
-        .slider-container {
-            -ms-overflow-style: none;  
-            scrollbar-width: none;  
-        }
+        
+        /* Hide slider scrollbar */
+        .slider-container::-webkit-scrollbar { display: none; }
+        .slider-container { -ms-overflow-style: none; scrollbar-width: none; }
 
         .slide {
             flex: 0 0 100vw;
             width: 100vw;
             height: 100vh;
             scroll-snap-align: start;
-            overflow-y: auto; /* Allows vertical scrolling inside the slide */
-            padding: 60px 20px 100px 20px;
+            overflow-y: auto;
+            padding: 90px 20px 100px 20px; /* 90px top padding so Nav bar doesn't cover content */
             position: relative;
             z-index: 10;
         }
 
-        /* Custom scrollbar for inside slides (like the 100 reasons) */
+        /* Custom scrollbar for inside slides */
         .slide::-webkit-scrollbar { width: 6px; }
         .slide::-webkit-scrollbar-track { background: transparent; }
         .slide::-webkit-scrollbar-thumb { background: #ff7eb3; border-radius: 10px; }
@@ -79,29 +105,6 @@
             color: #ff4785;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(255,255,255,0.7);
-        }
-
-        /* Swipe Indicator */
-        .swipe-indicator {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(5px);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #ff4785;
-            font-weight: 600;
-            z-index: 100;
-            pointer-events: none;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-            50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
-            100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
         }
 
         /* --- SLIDE 1: GALLERY --- */
@@ -122,13 +125,8 @@
             transition: transform 0.3s;
             width: 300px;
         }
-        .photo-card:nth-child(even) {
-            transform: rotate(2deg);
-        }
-        .photo-card:hover {
-            transform: scale(1.05) rotate(0deg);
-            z-index: 20;
-        }
+        .photo-card:nth-child(even) { transform: rotate(2deg); }
+        .photo-card:hover { transform: scale(1.05) rotate(0deg); z-index: 20; }
         .photo-card img {
             width: 100%;
             height: 250px;
@@ -147,7 +145,7 @@
             display: flex;
             justify-content: space-around;
             pointer-events: none;
-            margin-top: 40px;
+            margin-top: 20px;
         }
         .bouquet {
             font-size: 4rem;
@@ -158,7 +156,6 @@
         .bouquet:nth-child(3) { animation-delay: 1s; font-size: 3.5rem; }
         .bouquet:nth-child(4) { animation-delay: 1.5s; font-size: 4.5rem; }
         .bouquet:nth-child(5) { animation-delay: 2s; font-size: 4rem; }
-        
         @keyframes sway {
             from { transform: rotate(-15deg); }
             to { transform: rotate(15deg); }
@@ -243,17 +240,10 @@
             transition: transform 0.4s ease;
             z-index: 2;
         }
-        
-        /* Animation on hover/touch */
         .envelope-wrapper:hover .envelope-flap, 
-        .envelope-wrapper.open .envelope-flap {
-            transform: rotateX(180deg);
-        }
+        .envelope-wrapper.open .envelope-flap { transform: rotateX(180deg); }
         .envelope-wrapper:hover .letter,
-        .envelope-wrapper.open .letter {
-            transform: translateY(-40px);
-            z-index: 5;
-        }
+        .envelope-wrapper.open .letter { transform: translateY(-40px); z-index: 5; }
 
         /* --- SLIDE 3: THE GAME --- */
         .game-container {
@@ -311,18 +301,22 @@
 </head>
 <body>
 
-    <!-- Falling Flowers -->
+    <!-- Falling Flowers Background -->
     <div id="petals-container"></div>
-    
-    <!-- Swipe Indicator -->
-    <div class="swipe-indicator">Swipe or scroll right ➡️</div>
+
+    <!-- Sticky Navigation Menu -->
+    <nav>
+        <button onclick="scrollToSlide(0)" class="nav-btn active">Our Gallery</button>
+        <button onclick="scrollToSlide(1)" class="nav-btn">100 Reasons</button>
+        <button onclick="scrollToSlide(2)" class="nav-btn">For You</button>
+    </nav>
 
     <!-- MAIN SLIDER -->
     <div class="slider-container" id="main-slider">
         
         <!-- SLIDE 1: GALLERY -->
-        <section class="slide" id="slide1">
-            <h1>Happy Girlfriend's Day, Baby 💖</h1>
+        <section class="slide" id="slide0">
+            <h1>Hello Baby 💖</h1>
             <div class="gallery-grid">
                 <div class="photo-card">
                     <img src="photo1.jpg" alt="Beautiful memory">
@@ -349,7 +343,7 @@
         </section>
 
         <!-- SLIDE 2: 100 REASONS -->
-        <section class="slide" id="slide2">
+        <section class="slide" id="slide1">
             <h1>100 Reasons Why I Love You</h1>
             <div class="envelopes-grid" id="envelopes-grid">
                 <!-- Injected by JavaScript -->
@@ -357,7 +351,7 @@
         </section>
 
         <!-- SLIDE 3: THE GAME -->
-        <section class="slide" id="slide3">
+        <section class="slide" id="slide2">
             <div class="game-container">
                 <img src="https://media.tenor.com/ef39nFY8b4MAAAAi/bubu-dudu-bubu.gif" alt="Cute Bears">
                 <h1>Will you be my forever, baby?</h1>
@@ -372,6 +366,26 @@
     </div>
 
     <script>
+        // --- Slider Navigation Logic ---
+        const slider = document.getElementById('main-slider');
+        const navBtns = document.querySelectorAll('.nav-btn');
+
+        // Click to scroll
+        function scrollToSlide(index) {
+            const slideWidth = window.innerWidth;
+            slider.scrollTo({
+                left: index * slideWidth,
+                behavior: 'smooth'
+            });
+        }
+
+        // Update active button on swipe/scroll
+        slider.addEventListener('scroll', () => {
+            let activeIndex = Math.round(slider.scrollLeft / window.innerWidth);
+            navBtns.forEach(btn => btn.classList.remove('active'));
+            if(navBtns[activeIndex]) navBtns[activeIndex].classList.add('active');
+        });
+
         // --- Falling Petals Logic ---
         const petalsContainer = document.getElementById('petals-container');
         const flowers = ['🌸', '🌺', '💮', '💖'];
@@ -497,7 +511,6 @@
         reasons.forEach((reason, index) => {
             const wrapper = document.createElement('div');
             wrapper.className = 'envelope-wrapper';
-            // Click to open envelope on mobile/desktop
             wrapper.onclick = function() { this.classList.toggle('open'); };
             
             wrapper.innerHTML = `
@@ -513,7 +526,6 @@
         const yesBtn = document.getElementById('yesBtn');
         const successMessage = document.getElementById('successMessage');
 
-        // Move "No" button smoothly within the container bounds
         function moveNoButton() {
             const container = document.querySelector('.btn-container');
             const containerRect = container.getBoundingClientRect();
@@ -541,20 +553,7 @@
             noBtn.style.display = 'none';
             yesBtn.style.display = 'none';
             
-            // Celebration effect
-            for(let i = 0; i < 40; i++) setTimeout(createPetal, i * 50);
-        });
-        
-        // Hide swipe indicator when the user scrolls past the first slide
-        const sliderContainer = document.getElementById('main-slider');
-        const swipeIndicator = document.querySelector('.swipe-indicator');
-        sliderContainer.addEventListener('scroll', () => {
-            if (sliderContainer.scrollLeft > 100) {
-                swipeIndicator.style.opacity = '0';
-                swipeIndicator.style.transition = 'opacity 0.5s ease';
-            } else {
-                swipeIndicator.style.opacity = '1';
-            }
+            for(let i=0; i<40; i++) setTimeout(createPetal, i*50);
         });
     </script>
 </body>
