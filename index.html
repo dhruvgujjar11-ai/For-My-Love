@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Bby, Nandani ❤️</title>
+  <style>
+    :root {
+      --primary: #ff4d6d;
+      --secondary: #ff758f;
+      --accent: #ffb3c1;
+      --bg-gradient: linear-gradient(135deg, #0f0c20 0%, #1a0f2e 50%, #2a0826 100%);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 255, 255, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Background Hearts */
+    .bg-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart-particle {
+      position: absolute;
+      bottom: -100px;
+      color: rgba(255, 77, 109, 0.35);
+      font-size: 1.5rem;
+      animation: floatUp 8s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Layout Containers */
+    .container {
+      width: 90%;
+      max-width: 500px;
+      z-index: 10;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    /* Unlock Screen */
+    #unlock-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .heart-pulse {
+      font-size: 5rem;
+      cursor: pointer;
+      animation: pulse 1.4s infinite ease-in-out;
+      filter: drop-shadow(0 0 25px rgba(255, 77, 109, 0.8));
+      transition: transform 0.2s;
+    }
+
+    .heart-pulse:hover {
+      transform: scale(1.15);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.18); }
+    }
+
+    /* Main Content Screen */
+    #main-content {
+      display: none;
+      animation: fadeIn 1s forwards ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(45deg, #ff758f, #ffb3c1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      color: #e0e0e0;
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    /* Interactive Memory Cards */
+    .card-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      box-shadow: 0 8px 20px rgba(255, 77, 109, 0.2);
+    }
+
+    .card-title {
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-body {
+      font-size: 0.95rem;
+      color: #f1f1f1;
+      display: none;
+      margin-top: 0.5rem;
+      line-height: 1.4;
+    }
+
+    /* Interactive Decision Game */
+    .game-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 1.8rem 1rem;
+      border: 1px dashed var(--card-border);
+      margin-top: 1rem;
+      position: relative;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      position: relative;
+      min-height: 50px;
+    }
+
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-yes {
+      background: linear-gradient(45deg, #ff4d6d, #ff758f);
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+    }
+
+    .btn-yes:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6);
+    }
+
+    .btn-no {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      position: absolute;
+    }
+
+    /* Celebration Overlay */
+    #celebration {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: rgba(255, 77, 109, 0.15);
+      border-radius: 16px;
+      border: 1px solid var(--primary);
+    }
+
+    /* Custom Love Note */
+    .love-letter {
+      margin-top: 2rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1.5rem;
+      border-radius: 16px;
+      border-left: 4px solid var(--primary);
+      text-align: left;
+      font-style: italic;
+      line-height: 1.6;
+      color: #ffe6ea;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Background Hearts -->
+  <div class="bg-hearts" id="bg-hearts"></div>
+
+  <div class="container">
+    
+    <!-- Screen 1: Interactive Lock Intro -->
+    <div id="unlock-screen">
+      <div class="heart-pulse" onclick="unlockSite()">💖</div>
+      <h2>Tap the heart to open your surprise, bby</h2>
+      <p style="color: #aaa; font-size: 0.9rem;">Made with love, just for Nandani</p>
+    </div>
+
+    <!-- Screen 2: Main Experience -->
+    <div id="main-content">
+      <h1>Happy Girlfriend's Day, Nandani! ✨</h1>
+      <p class="subtitle">To my beautiful bby who means the whole world to me. Here are a few reminders of why you're so special ❤️</p>
+
+      <!-- Interactive Memory Cards -->
+      <div class="card-grid">
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-title">
+            <span>✨ Reason #1: Your Smile, Bby</span>
+            <span>👇</span>
+          </div>
+          <div class="card-body">
+            Nandani, your smile can instantly brighten up my worst day. Just seeing you happy makes everything completely worth it.
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-title">
+            <span>🌸 Reason #2: The Way You Care</span>
+            <span>👇</span>
+          </div>
+          <div class="card-body">
+            I love how sweet, thoughtful, and caring you are, bby. Every little detail about you makes me fall for you all over again.
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-title">
+            <span>🌍 Reason #3: My Favorite Person</span>
+            <span>👇</span>
+          </div>
+          <div class="card-body">
+            Out of everyone in the world, you're my number one, Nandani. My favorite talks, my favorite laughs, and my favorite memories are all with you.
+          </div>
+        </div>
+      </div>
+
+      <!-- Playful Interactive Question -->
+      <div class="game-box">
+        <h3>Will you be mine forever & ever, bby? 🥺</h3>
+        <div class="btn-group" id="btn-group">
+          <button class="btn btn-yes" onclick="sayYes()">YES! ❤️</button>
+          <button class="btn btn-no" id="no-btn" onmouseover="moveNo()" onclick="moveNo()">No 😜</button>
+        </div>
+
+        <div id="celebration">
+          <h3>YAYYYY NANDANI! 🎉💖</h3>
+          <p style="margin-top: 0.5rem;">I knew you'd say yes, bby! You're stuck with me forever now! 😘✨</p>
+        </div>
+      </div>
+
+      <!-- Love Note -->
+      <div class="love-letter">
+        "Thank you for being my joy, my strength, and my absolute favorite part of every single day. I love you so much, Nandani. Happy Girlfriend's Day, bby!"
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Create Background Hearts
+    const bgContainer = document.getElementById('bg-hearts');
+    const hearts = ['❤️', '💖', '🌸', '✨', '💕'];
+    
+    for (let i = 0; i < 25; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart-particle';
+      heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      heart.style.animationDelay = Math.random() * 5 + 's';
+      bgContainer.appendChild(heart);
+    }
+
+    // Unlock Experience
+    function unlockSite() {
+      document.getElementById('unlock-screen').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    }
+
+    // Toggle Card Visibility
+    function toggleCard(card) {
+      const body = card.querySelector('.card-body');
+      const isVisible = body.style.display === 'block';
+      body.style.display = isVisible ? 'none' : 'block';
+    }
+
+    // Dodge No Button
+    function moveNo() {
+      const noBtn = document.getElementById('no-btn');
+      const x = Math.random() * 160 - 80;
+      const y = Math.random() * 80 - 40;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    // Say Yes Action
+    function sayYes() {
+      document.getElementById('btn-group').style.display = 'none';
+      document.getElementById('celebration').style.display = 'block';
+      
+      // Burst extra floating hearts
+      for(let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.className = 'heart-particle';
+          heart.innerHTML = '💖';
+          heart.style.left = Math.random() * 100 + '%';
+          heart.style.animationDuration = '3s';
+          bgContainer.appendChild(heart);
+        }, i * 50);
+      }
+    }
+  </script>
+</body>
+</html>
