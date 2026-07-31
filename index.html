@@ -17,7 +17,7 @@
             background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
             background-attachment: fixed;
             color: #333;
-            overflow-x: hidden;
+            overflow: hidden; /* Prevents whole-page scrolling, forces slider scrolling */
             text-align: center;
         }
 
@@ -36,50 +36,42 @@
             100% { transform: translateY(110vh) rotate(360deg) translateX(50px); }
         }
 
-        /* Navigation Menu */
-        nav {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        nav button {
-            background: #ff7eb3;
-            border: none;
-            padding: 10px 20px;
-            margin: 0 5px;
-            border-radius: 20px;
-            color: white;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(255, 126, 179, 0.4);
-        }
-        nav button:hover, nav button.active {
-            background: #ff4785;
-            transform: scale(1.1);
+        /* --- SLIDER LAYOUT --- */
+        .slider-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory; /* Makes it snap perfectly to each slide */
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* Page Containers */
-        .page {
+        /* Hide scrollbar for cleaner look */
+        .slider-container::-webkit-scrollbar {
             display: none;
-            padding: 40px 20px;
-            min-height: 90vh;
+        }
+        .slider-container {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+
+        .slide {
+            flex: 0 0 100vw;
+            width: 100vw;
+            height: 100vh;
+            scroll-snap-align: start;
+            overflow-y: auto; /* Allows vertical scrolling inside the slide */
+            padding: 60px 20px 100px 20px;
             position: relative;
             z-index: 10;
         }
-        .page.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+
+        /* Custom scrollbar for inside slides (like the 100 reasons) */
+        .slide::-webkit-scrollbar { width: 6px; }
+        .slide::-webkit-scrollbar-track { background: transparent; }
+        .slide::-webkit-scrollbar-thumb { background: #ff7eb3; border-radius: 10px; }
 
         h1 {
             font-family: 'Dancing Script', cursive;
@@ -89,14 +81,37 @@
             text-shadow: 2px 2px 4px rgba(255,255,255,0.7);
         }
 
-        /* --- PAGE 1: GALLERY --- */
+        /* Swipe Indicator */
+        .swipe-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #ff4785;
+            font-weight: 600;
+            z-index: 100;
+            pointer-events: none;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+            100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+        }
+
+        /* --- SLIDE 1: GALLERY --- */
         .gallery-grid {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 30px;
             max-width: 1000px;
-            margin: 0 auto 100px auto;
+            margin: 0 auto 50px auto;
         }
         .photo-card {
             background: white;
@@ -127,15 +142,12 @@
             margin-top: 10px;
         }
 
-        /* 5 Animated Bouquets */
+        /* Animated Bouquets */
         .bouquets-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
             display: flex;
             justify-content: space-around;
             pointer-events: none;
+            margin-top: 40px;
         }
         .bouquet {
             font-size: 4rem;
@@ -152,7 +164,7 @@
             to { transform: rotate(15deg); }
         }
 
-        /* --- PAGE 2: 100 REASONS --- */
+        /* --- SLIDE 2: 100 REASONS --- */
         .envelopes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -243,7 +255,7 @@
             z-index: 5;
         }
 
-        /* --- PAGE 3: THE GAME --- */
+        /* --- SLIDE 3: THE GAME --- */
         .game-container {
             background: rgba(255, 255, 255, 0.7);
             max-width: 600px;
@@ -260,15 +272,16 @@
         }
         .btn-container {
             position: relative;
-            height: 100px;
+            height: 150px;
             margin-top: 30px;
+            width: 100%;
         }
         .game-btn {
             font-family: 'Poppins', sans-serif;
             font-size: 1.2rem;
-            padding: 10px 30px;
+            padding: 12px 35px;
             border: none;
-            border-radius: 20px;
+            border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
             transition: transform 0.2s;
@@ -300,73 +313,65 @@
 
     <!-- Falling Flowers -->
     <div id="petals-container"></div>
+    
+    <!-- Swipe Indicator -->
+    <div class="swipe-indicator">Swipe or scroll right ➡️</div>
 
-    <!-- Navigation -->
-    <nav>
-        <button onclick="showPage('page1')" class="active" id="btn-page1">Our Gallery</button>
-        <button onclick="showPage('page2')" id="btn-page2">100 Reasons</button>
-        <button onclick="showPage('page3')" id="btn-page3">For You</button>
-    </nav>
-
-    <!-- PAGE 1: GALLERY -->
-    <div id="page1" class="page active">
-        <h1>Hello Baby 💖</h1>
-        <div class="gallery-grid">
-            <div class="photo-card">
-                <img src="photo1.jpg" alt="Beautiful memory">
-                <div class="photo-caption">Your Beautiful Smile ✨</div>
-            </div>
-            <div class="photo-card">
-                <img src="photo2.jpg" alt="Us">
-                <div class="photo-caption">Forever My Girl 💖</div>
-            </div>
-            <div class="photo-card">
-                <img src="photo3.jpg" alt="Favorite moment">
-                <div class="photo-caption">You and Me 🌍</div>
-            </div>
-        </div>
+    <!-- MAIN SLIDER -->
+    <div class="slider-container" id="main-slider">
         
-        <!-- Animated Bouquets -->
-        <div class="bouquets-container">
-            <div class="bouquet">💐</div>
-            <div class="bouquet">💐</div>
-            <div class="bouquet">💐</div>
-            <div class="bouquet">💐</div>
-            <div class="bouquet">💐</div>
-        </div>
-    </div>
-
-    <!-- PAGE 2: 100 REASONS -->
-    <div id="page2" class="page">
-        <h1>100 Reasons Why I Love You</h1>
-        <div class="envelopes-grid" id="envelopes-grid">
-            <!-- Injected by JavaScript -->
-        </div>
-    </div>
-
-    <!-- PAGE 3: THE GAME -->
-    <div id="page3" class="page">
-        <div class="game-container">
-            <img src="https://media.tenor.com/ef39nFY8b4MAAAAi/bubu-dudu-bubu.gif" alt="Cute Bears">
-            <h1>Will you be my forever, baby?</h1>
-            <div class="btn-container">
-                <button id="yesBtn" class="game-btn">Yes! 💖</button>
-                <button id="noBtn" class="game-btn">No 😢</button>
+        <!-- SLIDE 1: GALLERY -->
+        <section class="slide" id="slide1">
+            <h1>Happy Girlfriend's Day, Baby 💖</h1>
+            <div class="gallery-grid">
+                <div class="photo-card">
+                    <img src="photo1.jpg" alt="Beautiful memory">
+                    <div class="photo-caption">Your Beautiful Smile ✨</div>
+                </div>
+                <div class="photo-card">
+                    <img src="photo2.jpg" alt="Us">
+                    <div class="photo-caption">Forever My Girl 💖</div>
+                </div>
+                <div class="photo-card">
+                    <img src="photo3.jpg" alt="Favorite moment">
+                    <div class="photo-caption">You and Me 🌍</div>
+                </div>
             </div>
-            <div id="successMessage">I knew you would say yes! I love you! 🥰🎉</div>
-        </div>
+            
+            <!-- Animated Bouquets -->
+            <div class="bouquets-container">
+                <div class="bouquet">💐</div>
+                <div class="bouquet">💐</div>
+                <div class="bouquet">💐</div>
+                <div class="bouquet">💐</div>
+                <div class="bouquet">💐</div>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: 100 REASONS -->
+        <section class="slide" id="slide2">
+            <h1>100 Reasons Why I Love You</h1>
+            <div class="envelopes-grid" id="envelopes-grid">
+                <!-- Injected by JavaScript -->
+            </div>
+        </section>
+
+        <!-- SLIDE 3: THE GAME -->
+        <section class="slide" id="slide3">
+            <div class="game-container">
+                <img src="https://media.tenor.com/ef39nFY8b4MAAAAi/bubu-dudu-bubu.gif" alt="Cute Bears">
+                <h1>Will you be my forever, baby?</h1>
+                <div class="btn-container">
+                    <button id="yesBtn" class="game-btn">Yes! 💖</button>
+                    <button id="noBtn" class="game-btn">No 😢</button>
+                </div>
+                <div id="successMessage">I knew you would say yes! I love you! 🥰🎉</div>
+            </div>
+        </section>
+
     </div>
 
     <script>
-        // --- Navigation Logic ---
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(pageId).classList.add('active');
-            document.getElementById('btn-' + pageId).classList.add('active');
-        }
-
         // --- Falling Petals Logic ---
         const petalsContainer = document.getElementById('petals-container');
         const flowers = ['🌸', '🌺', '💮', '💖'];
@@ -492,6 +497,7 @@
         reasons.forEach((reason, index) => {
             const wrapper = document.createElement('div');
             wrapper.className = 'envelope-wrapper';
+            // Click to open envelope on mobile/desktop
             wrapper.onclick = function() { this.classList.toggle('open'); };
             
             wrapper.innerHTML = `
@@ -507,7 +513,7 @@
         const yesBtn = document.getElementById('yesBtn');
         const successMessage = document.getElementById('successMessage');
 
-        // Move "No" button on hover/touch
+        // Move "No" button smoothly within the container bounds
         function moveNoButton() {
             const container = document.querySelector('.btn-container');
             const containerRect = container.getBoundingClientRect();
@@ -516,8 +522,8 @@
             const maxX = containerRect.width - btnRect.width;
             const maxY = containerRect.height - btnRect.height;
 
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY) - 50; // allow moving up slightly
+            const randomX = Math.max(0, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(0, Math.floor(Math.random() * maxY));
 
             noBtn.style.position = 'absolute';
             noBtn.style.left = randomX + 'px';
@@ -536,7 +542,19 @@
             yesBtn.style.display = 'none';
             
             // Celebration effect
-            for(let i=0; i<30; i++) setTimeout(createPetal, i*100);
+            for(let i = 0; i < 40; i++) setTimeout(createPetal, i * 50);
+        });
+        
+        // Hide swipe indicator when the user scrolls past the first slide
+        const sliderContainer = document.getElementById('main-slider');
+        const swipeIndicator = document.querySelector('.swipe-indicator');
+        sliderContainer.addEventListener('scroll', () => {
+            if (sliderContainer.scrollLeft > 100) {
+                swipeIndicator.style.opacity = '0';
+                swipeIndicator.style.transition = 'opacity 0.5s ease';
+            } else {
+                swipeIndicator.style.opacity = '1';
+            }
         });
     </script>
 </body>
