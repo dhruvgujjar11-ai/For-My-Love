@@ -14,530 +14,341 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
-            background-attachment: fixed;
-            color: #333;
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #4a00e0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
             overflow-x: hidden;
             text-align: center;
         }
 
-        /* Falling Flowers Background */
-        .petal {
-            position: fixed;
-            top: -10vh;
-            font-size: 1.5rem;
-            animation: fall linear infinite;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.7;
-        }
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); }
-            100% { transform: translateY(110vh) rotate(360deg) translateX(50px); }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Navigation Menu */
-        nav {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        nav button {
-            background: #ff7eb3;
-            border: none;
-            padding: 10px 20px;
-            margin: 0 5px;
-            border-radius: 20px;
-            color: white;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(255, 126, 179, 0.4);
-        }
-        nav button:hover, nav button.active {
-            background: #ff4785;
-            transform: scale(1.1);
-        }
-
-        /* Page Containers */
-        .page {
-            display: none;
-            padding: 40px 20px;
-            min-height: 90vh;
-            position: relative;
-            z-index: 10;
-        }
-        .page.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        header {
+            padding: 50px 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
             font-size: 4rem;
-            color: #ff4785;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.7);
+            color: #ff9a9e;
+            margin-bottom: 10px;
         }
 
-        /* --- PAGE 1: GALLERY --- */
-        .gallery-grid {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 30px;
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #fecfef;
+        }
+
+        .gallery-container {
             max-width: 1000px;
-            margin: 0 auto 100px auto;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
         }
-        .photo-card {
-            background: white;
-            padding: 15px 15px 25px 15px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            transform: rotate(-2deg);
-            transition: transform 0.3s;
-            width: 300px;
+
+        .media-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .photo-card:nth-child(even) {
-            transform: rotate(2deg);
+
+        .media-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 45px rgba(255, 154, 158, 0.4);
         }
-        .photo-card:hover {
-            transform: scale(1.05) rotate(0deg);
-            z-index: 20;
-        }
-        .photo-card img {
+
+        .media-card img, .media-card video {
             width: 100%;
             height: 250px;
             object-fit: cover;
-            border-radius: 5px;
+            border-radius: 15px;
+            margin-bottom: 10px;
         }
-        .photo-caption {
+
+        .media-caption {
             font-family: 'Dancing Script', cursive;
             font-size: 1.8rem;
-            color: #ff4785;
-            margin-top: 10px;
+            color: #ff9a9e;
         }
 
-        /* 5 Animated Bouquets */
-        .bouquets-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            pointer-events: none;
-        }
-        .bouquet {
-            font-size: 4rem;
-            animation: sway 3s ease-in-out infinite alternate;
-            transform-origin: bottom center;
-        }
-        .bouquet:nth-child(2) { animation-delay: 0.5s; font-size: 5rem; }
-        .bouquet:nth-child(3) { animation-delay: 1s; font-size: 3.5rem; }
-        .bouquet:nth-child(4) { animation-delay: 1.5s; font-size: 4.5rem; }
-        .bouquet:nth-child(5) { animation-delay: 2s; font-size: 4rem; }
-        
-        @keyframes sway {
-            from { transform: rotate(-15deg); }
-            to { transform: rotate(15deg); }
-        }
-
-        /* --- PAGE 2: 100 REASONS --- */
-        .envelopes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .envelope-wrapper {
-            position: relative;
-            width: 100%;
-            height: 150px;
-            background: #e07a93;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: all 0.3s;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: #ff9a9e;
-            clip-path: polygon(0 0, 100% 0, 50% 100%);
-            z-index: 3;
-            transition: transform 0.4s;
-            transform-origin: top;
-        }
-        .envelope-front {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            font-size: 1.2rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-            pointer-events: none;
-        }
-        .envelope-front::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 70%;
-            background: #ff7eb3;
-            clip-path: polygon(0 100%, 100% 100%, 100% 0, 50% 40%, 0 0);
-        }
-        .letter {
-            position: absolute;
-            bottom: 10px;
-            width: 90%;
-            height: 90%;
-            background: white;
-            border-radius: 5px;
-            padding: 10px;
-            font-size: 0.85rem;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 0 5px rgba(0,0,0,0.2);
-            transition: transform 0.4s ease;
-            z-index: 2;
-        }
-        
-        /* Animation on hover/touch */
-        .envelope-wrapper:hover .envelope-flap, 
-        .envelope-wrapper.open .envelope-flap {
-            transform: rotateX(180deg);
-        }
-        .envelope-wrapper:hover .letter,
-        .envelope-wrapper.open .letter {
-            transform: translateY(-40px);
-            z-index: 5;
-        }
-
-        /* --- PAGE 3: THE GAME --- */
-        .game-container {
-            background: rgba(255, 255, 255, 0.7);
-            max-width: 600px;
+        .reasons-section {
+            max-width: 800px;
             margin: 50px auto;
-            padding: 50px 20px;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            position: relative;
+            padding: 20px;
         }
-        .game-container img {
-            width: 200px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-        }
-        .btn-container {
-            position: relative;
-            height: 100px;
-            margin-top: 30px;
-        }
-        .game-btn {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.2rem;
-            padding: 10px 30px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s;
-        }
-        #yesBtn {
-            background: #4cd137;
-            color: white;
-            box-shadow: 0 4px 15px rgba(76, 209, 55, 0.4);
-            position: absolute;
-            left: 20%;
-        }
-        #noBtn {
-            background: #e84118;
-            color: white;
-            box-shadow: 0 4px 15px rgba(232, 65, 24, 0.4);
-            position: absolute;
-            right: 20%;
-        }
-        #successMessage {
-            display: none;
-            margin-top: 20px;
+
+        .reasons-title {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-            color: #ff4785;
+            font-size: 3rem;
+            color: #ff9a9e;
+            margin-bottom: 30px;
+        }
+
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar for Reasons */
+        .reasons-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+        .reasons-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 10px;
+        }
+        .reasons-grid::-webkit-scrollbar-thumb {
+            background: #ff9a9e; 
+            border-radius: 10px;
+        }
+
+        .reason-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #ff9a9e;
+            text-align: left;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .reason-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        .reason-number {
+            font-weight: bold;
+            color: #ff9a9e;
+            margin-right: 5px;
+        }
+
+        /* Floating Hearts */
+        .heart {
+            position: fixed;
+            top: -10vh;
+            font-size: 1.5rem;
+            animation: fall linear infinite;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Falling Flowers -->
-    <div id="petals-container"></div>
+    <!-- Floating Background Hearts -->
+    <div id="hearts-container"></div>
 
-    <!-- Navigation -->
-    <nav>
-        <button onclick="showPage('page1')" class="active" id="btn-page1">Our Gallery</button>
-        <button onclick="showPage('page2')" id="btn-page2">100 Reasons</button>
-        <button onclick="showPage('page3')" id="btn-page3">For You</button>
-    </nav>
+    <header>
+        <h1>Happy Girlfriend's Day, Nandani 💖</h1>
+        <h2>A little something for my beautiful baby.</h2>
+    </header>
 
-    <!-- PAGE 1: GALLERY -->
-    <div id="page1" class="page active">
-        <h1>Hello Baby 💖</h1>
-        <div class="gallery-grid">
-            <div class="photo-card">
-                <img src="photo1.jpg" alt="Beautiful memory">
-                <div class="photo-caption">Your Beautiful Smile ✨</div>
-            </div>
-            <div class="photo-card">
-                <img src="photo2.jpg" alt="Us">
-                <div class="photo-caption">Forever My Girl 💖</div>
-            </div>
-            <div class="photo-card">
-                <img src="photo3.jpg" alt="Favorite moment">
-                <div class="photo-caption">You and Me 🌍</div>
-            </div>
+    <section class="gallery-container">
+        <!-- 3 Photos -->
+        <div class="media-card">
+            <img src="photo1.jpg" alt="Our beautiful memory">
+            <div class="media-caption">Your Beautiful Smile ✨</div>
         </div>
-        
-        <!-- Animated Bouquets -->
-        <div class="bouquets-container">
-            <div class="bouquet">💐</div>
-            <div class="bouquet">💐</div>
-            <div class="bouquet">💐</div>
-            <div class="bouquet">💐</div>
-            <div class="bouquet">💐</div>
+        <div class="media-card">
+            <img src="photo2.jpg" alt="Just the two of us">
+            <div class="media-caption">Forever My Girl 💖</div>
         </div>
-    </div>
+        <div class="media-card">
+            <img src="photo3.jpg" alt="Favorite moment">
+            <div class="media-caption">You and Me 🌍</div>
+        </div>
 
-    <!-- PAGE 2: 100 REASONS -->
-    <div id="page2" class="page">
-        <h1>100 Reasons Why I Love You</h1>
-        <div class="envelopes-grid" id="envelopes-grid">
-            <!-- Injected by JavaScript -->
+        <!-- 3 Videos -->
+        <div class="media-card">
+            <video controls>
+                <source src="video1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="media-caption">My Favorite Memory 🌸</div>
         </div>
-    </div>
+        <div class="media-card">
+            <video controls>
+                <source src="video2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="media-caption">Our Fun Times 😆</div>
+        </div>
+        <div class="media-card">
+            <video controls>
+                <source src="video3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="media-caption">Just Baby Things 🥰</div>
+        </div>
+    </section>
 
-    <!-- PAGE 3: THE GAME -->
-    <div id="page3" class="page">
-        <div class="game-container">
-            <img src="https://media.tenor.com/ef39nFY8b4MAAAAi/bubu-dudu-bubu.gif" alt="Cute Bears">
-            <h1>Will you be my forever, baby?</h1>
-            <div class="btn-container">
-                <button id="yesBtn" class="game-btn">Yes! 💖</button>
-                <button id="noBtn" class="game-btn">No 😢</button>
-            </div>
-            <div id="successMessage">I knew you would say yes! I love you! 🥰🎉</div>
+    <section class="reasons-section">
+        <h2 class="reasons-title">100 Reasons Why I Love You</h2>
+        <div class="reasons-grid" id="reasons-grid">
+            <!-- Reasons injected by JavaScript -->
         </div>
-    </div>
+    </section>
 
     <script>
-        // --- Navigation Logic ---
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(pageId).classList.add('active');
-            document.getElementById('btn-' + pageId).classList.add('active');
-        }
-
-        // --- Falling Petals Logic ---
-        const petalsContainer = document.getElementById('petals-container');
-        const flowers = ['🌸', '🌺', '💮', '💖'];
-        
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
-            petal.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            petal.style.fontSize = (Math.random() * 1 + 1) + 'rem';
-            petalsContainer.appendChild(petal);
-            setTimeout(() => petal.remove(), 10000);
-        }
-        setInterval(createPetal, 400);
-
-        // --- 100 Reasons Logic ---
+        // 100 Unique Reasons Array
         const reasons = [
             "Your beautiful smile lights up my entire world.",
-            "The way my heart skips a beat when I see your name.",
-            "How smart you are, especially when studying psychology.",
-            "I love counting down the days until I visit you in London.",
-            "Dreaming about our upcoming vacation to Spain.",
-            "How strong our long-distance relationship is.",
-            "The comforting sound of your voice.",
-            "The way you make simple moments grand adventures.",
-            "Your unique laugh that I could listen to on repeat.",
-            "How you always manage to understand me.",
-            "The way you support my goals unconditionally.",
-            "Your beautiful eyes that I get lost in.",
-            "How you make me want to be a better man.",
+            "The way my heart skips a beat whenever I see your name on my phone.",
+            "How incredibly smart you are, especially when you talk about psychology.",
+            "I love counting down the days until I can visit you in London.",
+            "Dreaming about our upcoming vacation to Spain together makes me so happy.",
+            "How strong our relationship is, proving distance means nothing when someone means everything.",
+            "The comforting sound of your voice after a long day.",
+            "The way you make the simplest moments feel like grand adventures.",
+            "Your unique laugh that I could listen to on repeat forever.",
+            "How you always manage to understand me, even when I can't find the right words.",
+            "The way you support my goals and dreams without hesitation.",
+            "Your beautiful eyes that I get completely lost in.",
+            "How you make me want to be a better man every single day.",
             "The incredible patience you show me.",
-            "Your impeccable sense of style.",
-            "The way we can talk for hours.",
-            "How comfortable we are in total silence.",
-            "Your cute little habits.",
-            "The way you care so deeply for others.",
-            "How you always know how to cheer me up.",
-            "Your ambition and drive to succeed.",
-            "The warmth of your hugs.",
-            "How safe I feel when talking to you.",
-            "Your amazing sense of humor.",
+            "Your impeccable sense of style and how gorgeous you look effortlessly.",
+            "The way we can talk for hours and it only feels like minutes.",
+            "How we can sit in total silence and it still feels perfect.",
+            "Your cute little habits that you don't even realize you have.",
+            "The way you care so deeply for the people around you.",
+            "How you always know exactly how to cheer me up.",
+            "Your ambition and drive to succeed in everything you do.",
+            "The warmth of your hugs, even when I'm just imagining them.",
+            "How safe and secure I feel when I'm talking to you.",
+            "Your amazing sense of humor that perfectly matches mine.",
             "The way you challenge me to think differently.",
             "How you remember the smallest details about me.",
-            "Your kindness, which is truly beautiful.",
-            "The perfect way you say my name.",
-            "How our late-night calls end my day perfectly.",
-            "Your determination to overcome obstacles.",
-            "How gorgeous you look in every photo.",
-            "The way you make the miles between us feel small.",
+            "Your kindness, which is the most beautiful thing about you.",
+            "The way you say my name.",
+            "How our late-night calls are the best part of my day.",
+            "Your determination to overcome any obstacle.",
+            "The way you look in photos, though you're even more beautiful in person.",
+            "How you make the miles between us feel like nothing at all.",
             "Your wonderful taste in music.",
-            "How you inspire me to work hard.",
+            "The way you inspire me to stay focused and work hard.",
             "How sweet you are when you're sleepy.",
-            "Your unwavering honesty.",
-            "The cute faces you make on video calls.",
-            "How perfectly our personalities balance.",
-            "Your passionate heart.",
-            "The way you make tomorrow exciting.",
-            "How you are my best friend and soulmate.",
-            "Your gentle touch that I constantly crave.",
-            "The way you handle stress with grace.",
-            "How quickly you forgive my mistakes.",
+            "Your unwavering honesty and loyalty.",
+            "The cute faces you make when we're on video calls.",
+            "How perfectly our personalities balance each other out.",
+            "Your passionate heart and how deeply you love.",
+            "The way you make every tomorrow something to look forward to.",
+            "How you are my best friend and my soulmate wrapped into one.",
+            "Your gentle touch that I crave every day.",
+            "The way you handle stress with such grace.",
+            "How you forgive me when I make mistakes.",
             "Your endless capacity for empathy.",
-            "The way you brighten up any video call.",
-            "How you push me out of my comfort zone.",
-            "Your brilliant mind.",
+            "The way you brighten up any room (or video call) you enter.",
+            "How you always push me out of my comfort zone in the best way.",
+            "Your brilliant mind and the amazing conversations we share.",
             "The way you celebrate my tiny victories.",
-            "How I can be completely myself around you.",
+            "How I can completely be myself around you.",
             "Your resilience when things get tough.",
-            "The way you make me feel so lucky.",
+            "The way you make me feel like the luckiest guy in the world.",
             "How our love story is my absolute favorite.",
-            "Your optimism for our future.",
-            "The sweet texts you send out of nowhere.",
-            "How you're my first thought every morning.",
-            "And my last thought before sleep.",
-            "Your gorgeous hair.",
+            "Your optimism and the bright way you look at the future.",
+            "The sweet texts you send me out of nowhere.",
+            "How you are the very first thing I think about when I wake up.",
+            "And the very last thing on my mind before I fall asleep.",
+            "Your gorgeous hair and the way it falls perfectly.",
             "The way you trust me with your heart.",
-            "How we can be totally weird together.",
-            "Your beautiful soul.",
-            "The way you make life feel like a fairy tale.",
-            "How you are my safe haven.",
-            "Your incredible intuition.",
-            "The way you respect my opinions.",
-            "How you never give up on us.",
+            "How we can be completely silly and weird together.",
+            "Your beautiful soul that outshines everything else.",
+            "The way you make ordinary life feel like a fairy tale.",
+            "How you are my safe haven in a chaotic world.",
+            "Your incredible intuition about how I'm feeling.",
+            "The way you respect and value my opinions.",
+            "How you never give up on us, no matter the distance.",
             "Your fierce independence.",
-            "The way you make my favorite songs sound better.",
-            "How you taught me the meaning of patience.",
-            "Your infectious enthusiasm.",
-            "The way you prioritize our connection.",
-            "How every memory with you is a treasure.",
+            "The way you make my favorite songs sound better just by existing.",
+            "How you've taught me the true meaning of patience.",
+            "Your infectious enthusiasm when you talk about things you love.",
+            "The way you prioritize us and our connection.",
+            "How every memory we make instantly becomes a treasure.",
             "Your cute morning voice.",
-            "The way you make me laugh the hardest.",
-            "How you appreciate the little things.",
-            "Your incredible work ethic at university.",
-            "The way you look at me through the screen.",
-            "How you bring out the best side of me.",
+            "The way you make me laugh harder than anyone else can.",
+            "How you appreciate the little things I do for you.",
+            "Your incredible work ethic.",
+            "The way you look at me, even through a screen.",
+            "How you bring out a side of me I didn't know existed.",
             "Your sweet and caring nature.",
-            "The way planning our future is so exciting.",
-            "How you are my missing piece.",
-            "Your absolute uniqueness.",
+            "The way you make planning our future so exciting.",
+            "How you are the missing piece I didn't know I was searching for.",
+            "Your absolute uniqueness—there is no one else like you.",
             "The way you gracefully handle my flaws.",
-            "How I discover a new reason to love you daily.",
-            "Your ability to fix a bad day with a smile.",
-            "The way you hold my heart carefully.",
+            "How every day I discover a new reason to love you.",
+            "Your ability to make everything feel okay with just a smile.",
+            "The way you hold my heart so carefully.",
             "How you are my biggest cheerleader.",
             "Your genuine and pure intentions.",
-            "The way you make hard days bearable.",
-            "How you are the most beautiful girl in London.",
-            "And the most beautiful girl in the world to me.",
-            "Your endless curiosity.",
-            "The way we communicate without speaking.",
-            "How you are the best thing in my life.",
-            "Your amazing strength.",
+            "The way you make the hardest days bearable.",
+            "How you are the most beautiful girl in London, India, Germany, and the whole world.",
+            "Your endless curiosity about life.",
+            "The way we can communicate without even speaking.",
+            "How you are the absolute best thing that has ever happened to me.",
+            "Your strength that constantly amazes me.",
             "The way you make me believe in soulmates.",
-            "How I can't imagine life without you.",
-            "Your support during late-night sessions.",
-            "The way every goodbye is a promise for a better hello.",
-            "How you are my forever.",
-            "Simply because you are my baby, Nandani."
+            "How I can't imagine my life without you in it.",
+            "Your unwavering support during my late-night study or work sessions.",
+            "The way you make every goodbye just a promise for a better hello.",
+            "How you are my forever and always.",
+            "Simply because you are Nandani, and being yours is my greatest joy."
         ];
 
-        const grid = document.getElementById('envelopes-grid');
+        // Populate the grid
+        const grid = document.getElementById('reasons-grid');
         reasons.forEach((reason, index) => {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'envelope-wrapper';
-            wrapper.onclick = function() { this.classList.toggle('open'); };
-            
-            wrapper.innerHTML = `
-                <div class="envelope-flap"></div>
-                <div class="letter">#${index + 1}: ${reason}</div>
-                <div class="envelope-front">Reason ${index + 1}</div>
-            `;
-            grid.appendChild(wrapper);
+            const card = document.createElement('div');
+            card.className = 'reason-card';
+            card.innerHTML = `<span class="reason-number">#${index + 1}</span> ${reason}`;
+            grid.appendChild(card);
         });
 
-        // --- Game Logic ---
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        const successMessage = document.getElementById('successMessage');
+        // Generate Floating Hearts
+        const heartsContainer = document.getElementById('hearts-container');
+        const heartIcons = ['💖', '💕', '🌸', '✨'];
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 5 + 's'; // 5 to 8 seconds
+            heart.style.fontSize = Math.random() * 1 + 1 + 'rem';
+            heartsContainer.appendChild(heart);
 
-        // Move "No" button on hover/touch
-        function moveNoButton() {
-            const container = document.querySelector('.btn-container');
-            const containerRect = container.getBoundingClientRect();
-            const btnRect = noBtn.getBoundingClientRect();
-
-            const maxX = containerRect.width - btnRect.width;
-            const maxY = containerRect.height - btnRect.height;
-
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY) - 50; // allow moving up slightly
-
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
         }
 
-        noBtn.addEventListener('mouseover', moveNoButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); 
-            moveNoButton();
-        });
-
-        yesBtn.addEventListener('click', () => {
-            successMessage.style.display = 'block';
-            noBtn.style.display = 'none';
-            yesBtn.style.display = 'none';
-            
-            // Celebration effect
-            for(let i=0; i<30; i++) setTimeout(createPetal, i*100);
-        });
+        setInterval(createHeart, 300);
     </script>
 </body>
 </html>
