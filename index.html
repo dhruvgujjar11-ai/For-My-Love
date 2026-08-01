@@ -28,6 +28,31 @@
       scroll-behavior: smooth;
     }
 
+    /* Animated Flower Petals & Hearts Background */
+    .bg-animations {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal-particle {
+      position: absolute;
+      top: -50px;
+      font-size: 1.5rem;
+      animation: fall 9s linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+      10% { opacity: 0.9; }
+      100% { transform: translateY(105vh) rotate(360deg) translateX(50px); opacity: 0; }
+    }
+
     /* Sideways Bouquet Animation */
     .bouquet {
       position: fixed;
@@ -59,6 +84,8 @@
       justify-content: center;
       text-align: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      z-index: 10;
     }
 
     h1, h2 {
@@ -104,7 +131,7 @@
       50% { transform: scale(1.15); }
     }
 
-    /* Media Gallery (Photos & Videos) */
+    /* Media Gallery (4 Photos, 3 Videos) */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -202,7 +229,6 @@
       justify-content: center;
     }
 
-    /* Envelope Open State */
     .env-wrapper.open .env-flap {
       transform: rotateX(180deg);
       z-index: 1;
@@ -213,6 +239,61 @@
       z-index: 10;
       box-shadow: 0 10px 25px rgba(0,0,0,0.5);
       border: 1px solid var(--accent);
+    }
+
+    /* Interactive Decision Game */
+    .game-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 2.5rem 1rem;
+      border: 1px dashed var(--card-border);
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 600px;
+      position: relative;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      position: relative;
+      min-height: 50px;
+    }
+
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 20;
+    }
+
+    .btn-yes {
+      background: linear-gradient(45deg, #ff4d6d, #ff758f);
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+    }
+
+    .btn-yes:hover { transform: scale(1.08); }
+
+    .btn-no {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      position: absolute;
+    }
+
+    #celebration {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: rgba(255, 77, 109, 0.15);
+      border-radius: 16px;
+      border: 1px solid var(--primary);
     }
 
     /* Next Page Arrow */
@@ -233,6 +314,9 @@
 </head>
 <body>
 
+  <!-- Floating Background Animations -->
+  <div class="bg-animations" id="bg-animations"></div>
+
   <!-- Unlock Overlay -->
   <div id="unlock-screen">
     <div class="heart-pulse" onclick="startExperience()">💌</div>
@@ -251,25 +335,52 @@
       <p class="subtitle">To my beautiful bby. Here is a little walk down memory lane, followed by 100 reasons why you mean the world to me. ❤️</p>
       
       <div class="gallery-grid">
-        <!-- Photo 1 -->
+        <!-- PHOTO 1 -->
         <div class="media-card">
-          <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600" alt="Pic 1">
+          <img src="photo1.jpg" alt="Pic 1">
           <div class="media-caption">Your Beautiful Smile ✨</div>
         </div>
 
-        <!-- Video 1 -->
+        <!-- VIDEO 1 -->
         <div class="media-card">
-          <video controls>
-            <source src="your-video-file.mp4" type="video/mp4">
-            Your browser does not support HTML video.
+          <video controls preload="metadata">
+            <source src="video1.mp4" type="video/mp4">
           </video>
-          <div class="media-caption">My Favorite Video of Us 🌸</div>
+          <div class="media-caption">My Favorite Memory 🌸</div>
         </div>
 
-        <!-- Photo 2 -->
+        <!-- PHOTO 2 -->
         <div class="media-card">
-          <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600" alt="Pic 2">
+          <img src="photo2.jpg" alt="Pic 2">
           <div class="media-caption">Forever My Girl 💕</div>
+        </div>
+
+        <!-- VIDEO 2 -->
+        <div class="media-card">
+          <video controls preload="metadata">
+            <source src="video2.mp4" type="video/mp4">
+          </video>
+          <div class="media-caption">Our Fun Times 😂</div>
+        </div>
+
+        <!-- PHOTO 3 -->
+        <div class="media-card">
+          <img src="photo3.jpg" alt="Pic 3">
+          <div class="media-caption">You and Me 🌍</div>
+        </div>
+
+        <!-- VIDEO 3 -->
+        <div class="media-card">
+          <video controls preload="metadata">
+            <source src="video3.mp4" type="video/mp4">
+          </video>
+          <div class="media-caption">Just Bby Things 🥰</div>
+        </div>
+
+        <!-- PHOTO 4 -->
+        <div class="media-card">
+          <img src="photo4.jpg" alt="Pic 4">
+          <div class="media-caption">My Everything ❤️</div>
         </div>
       </div>
 
@@ -288,11 +399,24 @@
       <a href="#page3" class="scroll-down">⬇️</a>
     </section>
 
-    <!-- Page 3: The Final Note -->
+    <!-- Page 3: Game & Final Note -->
     <section class="section" id="page3">
-      <h2>I Love You, Nandani ❤️</h2>
-      <p class="subtitle" style="font-style: italic; font-size: 1.2rem;">
-        "Thank you for being my joy, my strength, and my absolute favorite part of every single day. You make every mile of the distance worth it, and I can't wait to make more amazing memories with you. Happy Girlfriend's Day, bby!"
+      
+      <div class="game-box">
+        <h2>Will you be mine forever & ever, bby? 🥺</h2>
+        <div class="btn-group" id="btn-group">
+          <button class="btn btn-yes" onclick="sayYes()">YES! ❤️</button>
+          <button class="btn btn-no" id="no-btn" onmouseover="moveNo()" onclick="moveNo()">No 😜</button>
+        </div>
+
+        <div id="celebration">
+          <h3>YAYYYY NANDANI! 🎉💖</h3>
+          <p style="margin-top: 0.5rem;">I knew you'd say yes, bby! You're stuck with me forever now! 😘✨</p>
+        </div>
+      </div>
+
+      <p class="subtitle" style="font-style: italic; font-size: 1.2rem; margin-top: 3rem;">
+        "Thank you for being my joy, my strength, and my absolute favorite part of every single day. Happy Girlfriend's Day, bby!"
       </p>
       <div style="font-size: 4rem; margin-top: 1rem;">👩‍❤️‍👨</div>
     </section>
@@ -300,6 +424,20 @@
   </div>
 
   <script>
+    // Create Background Flower Petals & Hearts
+    const bgContainer = document.getElementById('bg-animations');
+    const items = ['🌸', '🌺', '💖', '❤️', '✨', '🌹'];
+    
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'petal-particle';
+      particle.innerHTML = items[Math.floor(Math.random() * items.length)];
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDuration = (Math.random() * 5 + 6) + 's';
+      particle.style.animationDelay = Math.random() * 5 + 's';
+      bgContainer.appendChild(particle);
+    }
+
     // Unlock and Start Animations
     function startExperience() {
       const unlockScreen = document.getElementById('unlock-screen');
@@ -318,28 +456,25 @@
     const personalizedReasons = [
       "Your smile lights up my whole world.",
       "The way you care for people is so beautiful.",
-      "You make the long distance completely worth it.",
-      "I'm so excited for our upcoming Spain vacation! ✈️",
-      "Every time we are together in London is magical.",
       "You are my number one supporter.",
-      "I love the sound of your laugh.",
-      "How sweet and kind your heart is.",
+      "I absolutely love the sound of your laugh.",
+      "How sweet, caring, and kind your heart is.",
       "You make even boring days super fun.",
-      "You're my absolute favorite person to talk to."
+      "You're my absolute favorite person to talk to.",
+      "The beautiful way you always look at me.",
+      "How adorable you are when you get excited.",
+      "You bring out the absolute best in me."
     ];
 
-    const container = document.getElementById('env-container');
+    const envContainer = document.getElementById('env-container');
     
     for (let i = 1; i <= 100; i++) {
-      // Loop through our reasons array
       const reasonText = personalizedReasons[(i - 1) % personalizedReasons.length];
       
       const wrapper = document.createElement('div');
       wrapper.className = 'env-wrapper';
       wrapper.onclick = function() {
-        // Close all other envelopes first (optional, but keeps screen clean)
         document.querySelectorAll('.env-wrapper').forEach(env => env.classList.remove('open'));
-        // Open the clicked one
         this.classList.toggle('open');
       };
 
@@ -349,7 +484,32 @@
         <div class="env-letter">#${i}: ${reasonText}</div>
       `;
       
-      container.appendChild(wrapper);
+      envContainer.appendChild(wrapper);
+    }
+
+    // Game Logic
+    function moveNo() {
+      const noBtn = document.getElementById('no-btn');
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 100 - 50;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function sayYes() {
+      document.getElementById('btn-group').style.display = 'none';
+      document.getElementById('celebration').style.display = 'block';
+      
+      // Burst extra hearts
+      for(let i = 0; i < 35; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.className = 'petal-particle';
+          heart.innerHTML = '💖';
+          heart.style.left = Math.random() * 100 + '%';
+          heart.style.animationDuration = '3s';
+          bgContainer.appendChild(heart);
+        }, i * 50);
+      }
     }
   </script>
 </body>
